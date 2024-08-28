@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos del Arduino - 4 Macetas</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        .pot-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .pot {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            width: 45%;
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Datos del Arduino - 4 Macetas</h1>
+    <div class="pot-container">
+        <div id="pot1" class="pot">
+            <h2>Maceta 1</h2>
+            <div class="pot-data"></div>
+        </div>
+        <div id="pot2" class="pot">
+            <h2>Maceta 2</h2>
+            <div class="pot-data"></div>
+        </div>
+        <div id="pot3" class="pot">
+            <h2>Maceta 3</h2>
+            <div class="pot-data"></div>
+        </div>
+        <div id="pot4" class="pot">
+            <h2>Maceta 4</h2>
+            <div class="pot-data"></div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io();
+        const potDivs = {
+            '1': document.querySelector('#pot1 .pot-data'),
+            '2': document.querySelector('#pot2 .pot-data'),
+            '3': document.querySelector('#pot3 .pot-data'),
+            '4': document.querySelector('#pot4 .pot-data')
+        };
+
+        socket.on('arduino-data', (data) => {
+            for (const [potNumber, potData] of Object.entries(data)) {
+                if (potDivs[potNumber]) {
+                    const newData = document.createElement('p');
+                    newData.textContent = potData;
+                    potDivs[potNumber].prepend(newData);
+                    
+                    // Limitar a las últimas 5 lecturas por maceta
+                    if (potDivs[potNumber].children.length > 5) {
+                        potDivs[potNumber].removeChild(potDivs[potNumber].lastChild);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
