@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datos del Arduino - 4 Macetas</title>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <style>
         .pot-container {
             display: flex;
@@ -58,7 +59,7 @@
                     potDivs[potNumber].prepend(newData);
                     
                     // Limitar a las últimas 5 lecturas por maceta
-                    if (potDivs[potNumber].children.length > 5) {
+                    if (potDivs[potNumber].children.length > 1) {
                         potDivs[potNumber].removeChild(potDivs[potNumber].lastChild);
                     }
                 }

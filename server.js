@@ -4,6 +4,7 @@ const { Server } = require("socket.io");
 const path = require('path');
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
+const os = require('os');
 
 const app = express();
 const server = http.createServer(app);
@@ -11,8 +12,23 @@ const io = new Server(server);
 
 const port = 3000;
 
+// Función para determinar el puerto serial basado en el sistema operativo
+function getSerialPort() {
+    const platform = os.platform();
+    if (platform === 'win32') {
+        return 'COM3';
+    } else if (platform === 'linux') {
+        return '/dev/ttyUSB0';
+    } else {
+        throw new Error('Sistema operativo no soportado');
+    }
+}
+
 // Configuración de SerialPort
-const arduinoPort = new SerialPort({ path: '/dev/ttyUSB0', baudRate: 9600 });
+const arduinoPort = new SerialPort({ 
+    path: getSerialPort(), 
+    baudRate: 9600 
+});
 const parser = arduinoPort.pipe(new ReadlineParser({ delimiter: '\n' }));
 
 // Servir archivos estáticos desde la carpeta 'assets'
@@ -51,6 +67,7 @@ parser.on('data', (data) => {
 // Iniciar el servidor
 server.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
+    console.log(`Conectado al puerto serial: ${getSerialPort()}`);
 });
 
 // Manejo de errores de SerialPort

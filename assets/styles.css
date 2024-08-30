@@ -1,0 +1,70 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+/* Contenedor de macetas */
+.pot-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Estilos para cada maceta */
+.pot {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px;
+    width: calc(50% - 20px);
+    min-width: 250px;
+    transition: transform 0.3s ease;
+}
+
+.pot:hover {
+    transform: translateY(-5px);
+}
+
+.pot h2 {
+    color: #3498db;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+/* Estilos para los datos de las macetas */
+.pot-data p {
+    background-color: #ecf0f1;
+    border-left: 4px solid #3498db;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 14px;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pot-data span {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .pot {
+        width: 100%;
+    }
+}
